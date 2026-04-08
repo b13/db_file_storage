@@ -1,0 +1,53 @@
+{
+    "name": "b13/db-file-storage-dev",
+    "description": "Development TYPO3 installation for working on b13/db-file-storage.",
+    "type": "project",
+    "license": "GPL-2.0-or-later",
+    "require": {
+        "php": "^8.2",
+        "typo3/cms-core": "^13.4",
+        "typo3/cms-backend": "^13.4",
+        "typo3/cms-frontend": "^13.4",
+        "typo3/cms-extbase": "^13.4",
+        "typo3/cms-fluid": "^13.4",
+        "typo3/cms-install": "^13.4",
+        "typo3/cms-setup": "^13.4",
+        "typo3/cms-tstemplate": "^13.4",
+        "typo3/cms-filelist": "^13.4",
+        "typo3/cms-info": "^13.4",
+        "typo3/cms-lowlevel": "^13.4",
+        "typo3/cms-extensionmanager": "^13.4",
+        "b13/db-file-storage": "@dev"
+    },
+    "require-dev": {
+        "typo3/testing-framework": "^9.0",
+        "phpunit/phpunit": "^11.0"
+    },
+    "repositories": [
+        {
+            "type": "path",
+            "url": "../",
+            "options": {
+                "symlink": true
+            }
+        }
+    ],
+    "config": {
+        "allow-plugins": {
+            "typo3/cms-composer-installers": true,
+            "typo3/class-alias-loader": true
+        },
+        "sort-packages": true,
+        "vendor-dir": "vendor"
+    },
+    "extra": {
+        "typo3/cms": {
+            "web-dir": "public"
+        }
+    },
+    "scripts": {
+        "test:functional": [
+            "TYPO3_PATH_ROOT=$PWD/public typedb=$PWD/../tmp/functional-sqlite-dbs/test_functional.sqlite typo3DatabaseDriver=pdo_sqlite vendor/bin/phpunit -c ../Build/phpunit/FunctionalTests.xml"
+        ]
+    }
+}

@@ -1,0 +1,12 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+    public: false
+
+  B13\DbFileStorage\:
+    resource: '../Classes/*'
+
+  # The storage service is the public entry point consumers inject.
+  B13\DbFileStorage\Service\DatabaseFileStorage:
+    public: true

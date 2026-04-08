@@ -1,0 +1,69 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  php-cs-fixer:
+    name: PHP-CS-Fixer
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          tools: composer
+      - run: composer install --no-progress --prefer-dist
+      - run: vendor/bin/php-cs-fixer fix --dry-run --diff
+
+  phpstan:
+    name: PHPStan
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          tools: composer
+      - run: composer install --no-progress --prefer-dist
+      - run: vendor/bin/phpstan analyse
+
+  tests:
+    name: Tests (PHP ${{ matrix.php }}, TYPO3 ${{ matrix.typo3 }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - php: '8.2'
+            typo3: '^13.4'
+          - php: '8.3'
+            typo3: '^13.4'
+          - php: '8.3'
+            typo3: '^14.2'
+          - php: '8.4'
+            typo3: '^13.4'
+          - php: '8.4'
+            typo3: '^14.2'
+          - php: '8.5'
+            typo3: '^14.2'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: pdo_sqlite, fileinfo
+          tools: composer
+      - name: Pin TYPO3 version
+        run: |
+          composer require \
+            typo3/cms-core:${{ matrix.typo3 }} \
+            typo3/cms-extbase:${{ matrix.typo3 }} \
+            --no-update
+      - run: composer install --no-progress --prefer-dist
+      - name: Functional tests
+        run: vendor/bin/phpunit -c Tests/phpunit/FunctionalTests.xml
+        env:
+          typo3DatabaseDriver: pdo_sqlite

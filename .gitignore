@@ -1,0 +1,22 @@
+Build/vendor/
+Build/public/
+Build/config/
+Build/var/
+Build/composer.lock
+var/
+vendor/
+public/
+composer.lock
+# PHPUnit
+.phpunit.cache/
+.phpunit.result.cache
+
+# PHP-CS-Fixer
+.php-cs-fixer.cache
+
+# IDE
+.idea/
+.vscode/
+
+# OS
+.DS_Store
