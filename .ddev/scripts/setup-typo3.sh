@@ -26,7 +26,9 @@ else
     echo "[db_file_storage] composer dependencies already installed, skipping."
 fi
 
-if [ ! -f "${SETTINGS_FILE}" ]; then
+TABLE_COUNT=$(mysql -h db -u db -pdb db -sN -e "SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = 'db';" 2>/dev/null || echo "0")
+
+if [ ! -f "${SETTINGS_FILE}" ] && [ "${TABLE_COUNT}" -eq 0 ]; then
     echo "[db_file_storage] Running 'typo3 setup' against DDEV database ..."
     vendor/bin/typo3 setup \
         --driver=mysqli \
@@ -47,5 +49,5 @@ if [ ! -f "${SETTINGS_FILE}" ]; then
     echo "[db_file_storage] Backend:  https://db-file-storage.ddev.site/typo3"
     echo "[db_file_storage] Login:    admin / Password.1"
 else
-    echo "[db_file_storage] TYPO3 already set up (${SETTINGS_FILE} exists), skipping."
+    echo "[db_file_storage] TYPO3 already set up (settings.php exists or database has tables), skipping."
 fi
