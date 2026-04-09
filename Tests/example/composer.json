@@ -1,0 +1,24 @@
+{
+    "name": "db-store/example",
+    "description": "Example extension demonstrating b13/db-file-storage usage.",
+    "type": "typo3-cms-extension",
+    "license": "GPL-2.0-or-later",
+    "require": {
+        "php": "^8.2",
+        "typo3/cms-core": "^13.4",
+        "typo3/cms-backend": "^13.4",
+        "typo3/cms-extbase": "^13.4",
+        "typo3/cms-fluid": "^13.4",
+        "b13/db-file-storage": "@dev"
+    },
+    "autoload": {
+        "psr-4": {
+            "DbStore\\Example\\": "Classes/"
+        }
+    },
+    "extra": {
+        "typo3/cms": {
+            "extension-key": "example"
+        }
+    }
+}

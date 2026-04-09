@@ -17,7 +17,8 @@
         "typo3/cms-info": "^13.4",
         "typo3/cms-lowlevel": "^13.4",
         "typo3/cms-extensionmanager": "^13.4",
-        "b13/db-file-storage": "@dev"
+        "b13/db-file-storage": "@dev",
+        "db-store/example": "@dev"
     },
     "require-dev": {
         "typo3/testing-framework": "^9.0",
@@ -27,6 +28,13 @@
         {
             "type": "path",
             "url": "../",
+            "options": {
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
+            "url": "../Tests/example",
             "options": {
                 "symlink": true
             }
